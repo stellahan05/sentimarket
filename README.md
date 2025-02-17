@@ -2,15 +2,24 @@
 
 A real-time dashboard that analyzes Reddit sentiment to predict stock price movements using machine learning.
 
+## 🔴 [Live Demo](https://sentimarket.streamlit.app)
+
 ## Features
 
-- 📊 Real-time stock data visualization
+- 📊 Real-time stock data visualization using yfinance
 - 🤖 Reddit sentiment analysis using VADER
-- 🔮 Machine learning predictions using Random Forest
+- 🔮 Machine learning predictions with RandomForest
 - 📈 Interactive plots and metrics
-- 🔄 Daily sentiment tracking
+- 🔄 Multi-subreddit tracking for different stocks
 
-## Installation
+## Tech Stack
+
+- **Data Collection:** PRAW (Reddit API), yfinance
+- **Analysis:** VADER Sentiment, scikit-learn
+- **Visualization:** Plotly
+- **Deployment:** Streamlit Cloud
+
+## Local Development
 
 1. Clone the repository:
 ```bash
@@ -38,12 +47,15 @@ REDDIT_CLIENT_SECRET=your_client_secret
 REDDIT_USER_AGENT=your_user_agent
 ```
 
-## Usage
-
-Run the dashboard:
-
+5. Run the dashboard:   
 ```bash
 streamlit run main.py
 ```
 
-The dashboard will be available at `http://localhost:8501`
+## Features in Detail
+
+- **Stock Data:** Real-time price and volume data from Yahoo Finance
+- **Reddit Analysis:** Sentiment from multiple relevant subreddits
+- **ML Model:** Predicts next-day price movements
+- **Technical Indicators:** RSI, Moving Averages, Volume Analysis
+- **Interactive UI:** Customizable time periods and stocks
