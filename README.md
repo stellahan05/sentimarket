@@ -16,6 +16,7 @@ A real-time dashboard that analyzes Reddit sentiment to predict stock price move
 ```bash
 git clone https://github.com/yourusername/sentimarket.git
 cd sentimarket
+```
 
 2. Create a virtual environment:
 ```bash
