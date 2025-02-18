@@ -44,4 +44,10 @@ ENV/
 # Project specific
 *.log
 data/
-models/ 
+models/
+
+# Test coverage
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml 
