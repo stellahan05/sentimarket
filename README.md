@@ -32,9 +32,9 @@ SentiMarket combines stock market data with social media sentiment to provide de
 
 ### Data Pipeline
 ```
-Reddit API → Sentiment Analysis → Feature Engineering → ML Model → Predictions
-         ↘                                           ↗
-          Yahoo Finance → Technical Indicators ──────
+1. Reddit API ────→ Sentiment Analysis ────┐
+                                          ├──→ Feature Engineering ──→ ML Model ──→ Predictions
+2. Yahoo Finance ──→ Technical Indicators ─┘
 ```
 
 ### Implementation Details
