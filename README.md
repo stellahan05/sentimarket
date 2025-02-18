@@ -1,10 +1,9 @@
 # SentiMarket: Stock Sentiment Analysis Dashboard
+![Test Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen.svg)
 
 A real-time dashboard that analyzes Reddit sentiment to predict stock price movements using machine learning.
 
 ## 🔴 [Live Demo](https://sentimarket.streamlit.app)
-
-![Test Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen.svg)
 
 ## Features
 
