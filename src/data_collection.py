@@ -71,10 +71,15 @@ class DataCollector:
     
     def collect_all_data(self, symbol='TSLA', period='30d'):
         """Collect both stock and Reddit data"""
-        stock_data = self.get_stock_data(symbol, period)
-        reddit_posts = self.get_reddit_posts(symbol)
-        
-        if not reddit_posts:
-            raise ValueError(f"No Reddit posts found for {symbol}")
+        try:
+            stock_data = self.get_stock_data(symbol, period)
+            if stock_data.empty:
+                raise ValueError(f"No stock data found for {symbol}")
             
-        return stock_data, reddit_posts
+            reddit_posts = self.get_reddit_posts(symbol)
+            if not reddit_posts:
+                raise ValueError(f"No Reddit posts found for {symbol}")
+            
+            return stock_data, reddit_posts
+        except Exception as e:
+            raise ValueError(f"Error collecting data for {symbol}: {str(e)}")

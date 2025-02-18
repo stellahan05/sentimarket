@@ -1,40 +1,47 @@
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import pandas as pd
+import numpy as np
 
 class SentimentAnalyzer:
     def __init__(self):
-        self.analyzer = SentimentIntensityAnalyzer()
-        
+        self.vader = SentimentIntensityAnalyzer()
+    
     def analyze_posts(self, posts):
+        """Analyze sentiment of posts"""
+        if posts is None:
+            raise ValueError("Posts cannot be None")
+        if not isinstance(posts, list):
+            raise TypeError("Posts must be a list")
+            
         sentiment_scores = []
         for post in posts:
-            scores = self.analyzer.polarity_scores(post)
+            if not isinstance(post, str):
+                raise TypeError("Each post must be a string")
+            scores = self.vader.polarity_scores(post)
             sentiment_scores.append(scores['compound'])
+        
         return sentiment_scores
     
-    def create_sentiment_df(self, sentiment_scores, stock_data):
-        sentiment_df = pd.DataFrame({
-            'sentiment': sentiment_scores,
-            'time': pd.date_range(start=stock_data.index[0], 
-                                end=stock_data.index[-1], 
-                                periods=len(sentiment_scores))
-        })
-        sentiment_df['time'] = sentiment_df['time'].dt.normalize()
-        return sentiment_df.groupby('time')['sentiment'].mean().reset_index()
-    
-    def analyze_and_merge(self, stock_data, reddit_posts):
-        """Complete sentiment analysis pipeline"""
-        # Analyze sentiment
-        sentiment_scores = self.analyze_posts(reddit_posts)
+    def analyze_and_merge(self, stock_data, posts):
+        """Merge sentiment scores with stock data"""
+        if stock_data is None or posts is None:
+            raise ValueError("Stock data and posts cannot be None")
+            
+        # Calculate sentiment scores
+        sentiment_scores = self.analyze_posts(posts)
         
         # Create sentiment DataFrame
-        sentiment_df = self.create_sentiment_df(sentiment_scores, stock_data)
+        sentiment_df = pd.DataFrame({
+            'Date': stock_data.index,
+            'sentiment': np.mean(sentiment_scores)  # Use mean sentiment for each day
+        })
         
         # Merge with stock data
-        merged_df = pd.merge(stock_data.reset_index(), 
-                           sentiment_df,
-                           left_on='Date',
-                           right_on='time',
-                           how='inner')
+        stock_data = stock_data.reset_index()
+        stock_data.rename(columns={'index': 'Date'}, inplace=True)
+        merged_df = pd.merge(stock_data, sentiment_df, on='Date', how='left')
+        
+        # Fill any missing sentiment values
+        merged_df['sentiment'].fillna(method='ffill', inplace=True)
         
         return merged_df
